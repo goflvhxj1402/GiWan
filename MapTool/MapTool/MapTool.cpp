@@ -79,28 +79,64 @@ void MapTool::Reset()
 	}
 }
 
-void MapTool::Save(LPCSTR FileName)
+void MapTool::Save(HWND hWnd)
 {
+	OPENFILENAME OFN;
+	char str[300];
+	char lpstrFile[MAX_PATH] = "";
+	char lpstrPath[MAX_PATH] = "";
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = hWnd;
+	OFN.lpstrFilter = "Text File\0*.txt;*.doc\0";
+	OFN.lpstrFile = lpstrFile;
+	OFN.nMaxFile = 256;
+	GetCurrentDirectory(MAX_PATH, lpstrPath);
+	OFN.lpstrInitialDir = lpstrPath;
+
+	if (GetSaveFileName(&OFN) == 0)
+	{
+		DWORD err = CommDlgExtendedError();
+		return;
+	}
 	HANDLE hFile;
 	DWORD dWord;
-	hFile = CreateFile(FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	hFile = CreateFile(OFN.lpstrFile, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	for (int y = 0; y < ROOM; y++)
 		for(int x = 0; x < ROOM; x++)
-			WriteFile(hFile, &m_Map.m_arrMap[y][x], sizeof(Map), &dWord, NULL);
+			WriteFile(hFile, &m_Map.m_arrMap[y][x], sizeof(Room), &dWord, NULL);
 	CloseHandle(hFile);
 }
 
-void MapTool::Load()
+void MapTool::Load(HWND hWnd)
 {
+	OPENFILENAME OFN;
+	char str[300];
+	char lpstrFile[MAX_PATH] = "";
+	char lpstrPath[MAX_PATH] = "";
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = hWnd;
+	OFN.lpstrFilter = "Text File\0*.txt;*.doc\0";
+	OFN.lpstrFile = lpstrFile;
+	OFN.nMaxFile = 256;
+	GetCurrentDirectory(MAX_PATH, lpstrPath);
+	OFN.lpstrInitialDir = lpstrPath;
+
+	if (GetSaveFileName(&OFN) == 0)
+	{
+		DWORD err = CommDlgExtendedError();
+		return;
+	}
 	HANDLE hFile;
 	DWORD dWord;
-	hFile = CreateFile("Test1.txt", GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	hFile = CreateFile(OFN.lpstrFile, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	memset(m_Map.m_arrMap, NULL, sizeof(m_Map));
+	memset(m_Map.m_arrMap, NULL, sizeof(m_Map.m_arrMap));
 	for (int y = 0; y < ROOM; y++)
 		for (int x = 0; x < ROOM; x++)
-			ReadFile(hFile, &m_Map.m_arrMap[y][x], sizeof(Map), &dWord, NULL);
+			ReadFile(hFile, &m_Map.m_arrMap[y][x], sizeof(Room), &dWord, NULL);
 	CloseHandle(hFile);
 }
 

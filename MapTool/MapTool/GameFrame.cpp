@@ -14,6 +14,13 @@ void GameFrame::SetGame(HDC hdc)
 	m_hFrame = CreateCompatibleBitmap(hdc, WIN_X, WIN_Y);
 	m_hOldFrame = (HBITMAP)SelectObject(m_hFrameDC, m_hFrame);
 	FillRect(m_hFrameDC, &rt, (HBRUSH)GetStockObject(GRAY_BRUSH));
+	//기본맵설정
+	char buf[256];
+	for (int i = 0; i < MAP_MAX; i++)
+	{
+		wsprintf(buf, "Map%d.txt", i + 1);
+		m_arrMap[i].SetMap(buf);
+	}
 	//게임초기설정
 	m_bGameState = false;
 	m_iLevel = NULL;
@@ -44,7 +51,7 @@ void GameFrame::Draw(HDC hdc)
 	}
 	else//게임시작후
 	{
-		m_arrMap[0].DrawMap(m_hFrameDC);
+		m_arrMap[m_iLevel].DrawMap(m_hFrameDC);
 	}
 	BitBlt(hdc, 0, 0, WIN_X, WIN_Y, m_hFrameDC, 0, 0, SRCCOPY);
 }

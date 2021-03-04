@@ -16,11 +16,21 @@ Map::Map()
 	}
 }
 
-void Map::DrawMap(HDC hdc)
+void Map::SetMap(LPCSTR FileName)
 {
+	HANDLE hFile;
+	DWORD dWord;
+	hFile = CreateFile(FileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	memset(m_arrMap, NULL, sizeof(m_arrMap));
 	for (int y = 0; y < ROOM; y++)
 		for (int x = 0; x < ROOM; x++)
-			Res_MG::GetInstance()->Draw(m_arrMap[y][x].m_iIndex, hdc, m_arrMap[y][x].m_Point);
+			ReadFile(hFile, &m_arrMap[y][x], sizeof(Room), &dWord, NULL);
+	CloseHandle(hFile);
+}
+
+void Map::DrawMap(HDC hdc)
+{
 	for (int y = 0; y < ROOM; y++)
 	{
 		for (int x = 0; x < ROOM; x++)

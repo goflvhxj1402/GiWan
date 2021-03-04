@@ -26,7 +26,7 @@ int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdParam, i
 	RegisterClass(&WndClass);
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-		WIN_X + 16, WIN_Y + 38, NULL, (HMENU)0, g_hInst, NULL);
+		WIN_X + 16, WIN_Y + 58, NULL, (HMENU)0, g_hInst, NULL);
 	ShowWindow(hWnd, nCmdShow);
 	HDC hdc;
 	hdc = GetDC(hWnd);
@@ -79,14 +79,14 @@ INT_PTR CALLBACK AboutDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lP
 		switch (LOWORD(wParam))
 		{
 		case IDC_BUTTON1:
-			MapTool::GetInstance()->Save("Test1.txt");
+			MapTool::GetInstance()->Save(hDlg);
 			break;
 		case IDC_BUTTON2:
 			MapTool::GetInstance()->Reset();
 			InvalidateRect(hDlg, NULL, TRUE);
 			break;
 		case IDC_BUTTON3:
-			MapTool::GetInstance()->Load();
+			MapTool::GetInstance()->Load(hDlg);
 			InvalidateRect(hDlg, NULL, TRUE);
 			break;
 		}

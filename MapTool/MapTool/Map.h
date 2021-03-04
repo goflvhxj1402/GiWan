@@ -3,10 +3,10 @@
 
 class Map
 {
-protected:
-	
+protected:	
 public:
 	Room m_arrMap[ROOM][ROOM];
+	void SetMap(LPCSTR FileName);
 	void DrawMap(HDC hdc);
 	Map();
 	~Map();

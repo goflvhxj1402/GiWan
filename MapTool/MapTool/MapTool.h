@@ -18,8 +18,8 @@ public:
 	void RoomDraw(HDC hdc);
 	bool Click(POINT pt);	
 	void Reset();
-	void Save(LPCSTR FileName);
-	void Load();
+	void Save(HWND hWnd);
+	void Load(HWND hWnd);
 	MapTool();
 	~MapTool();
 };
