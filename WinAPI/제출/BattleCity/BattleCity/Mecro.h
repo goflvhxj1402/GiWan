@@ -1,0 +1,164 @@
+#pragma once
+#pragma comment(lib, "msimg32.lib")
+#include<windows.h>
+#include<time.h>
+#include<vector>
+#include<math.h>
+
+#define ENEMY 0
+#define PLAYER 1
+#define DIE -100
+#define EMPTY -1
+#define IMAGE_SIZE 50
+#define HALF 25
+#define WIN_X 800
+#define WIN_Y 750
+#define MAP 13
+#define TILE_MAX 16
+#define MAPTOOL 0
+#define NORMAL 1
+#define MAP_MAX 5
+#define ENEMY_MAX 20
+#define CREATE_TIME 2000
+#define PAUSE_TIME 1000
+#define BULLET_SPEED 15
+
+static POINT ORIGIN_PT = { 0, 0 };
+static POINT STAGE_PT = { WIN_X / 3, WIN_Y / 3 };
+static SIZE WIN_SIZE = { WIN_X, WIN_Y };
+static SIZE PUBLIC_SIZE = { IMAGE_SIZE, IMAGE_SIZE };
+static SIZE ICON_SIZE = { 25, 25 };
+
+using namespace std;
+
+enum IMAGE
+{
+	IMAGE_START,
+	IMAGE_LOBBY = 0,
+	IMAGE_EMPTY,
+	IMAGE_BLOCK1,
+	IMAGE_BLOCK1_UP,
+	IMAGE_BLOCK1_LEFT,
+	IMAGE_BLOCK1_DOWN,
+	IMAGE_BLOCK1_RIGHT,
+	IMAGE_BLOCK2,
+	IMAGE_BLOCK2_UP,
+	IMAGE_BLOCK2_LEFT,
+	IMAGE_BLOCK2_DOWN,
+	IMAGE_BLOCK2_RIGHT,
+	IMAGE_BLOCK_STEEL,
+	IMAGE_BLOCK_GRASS,
+	IMAGE_BLOCK_WATER,
+	IMAGE_ITEM1,
+	IMAGE_ITEM2,
+	IMAGE_ENEMY_DOWN1,
+	IMAGE_ENEMY_DOWN2,
+	IMAGE_ENEMY_LEFT1,
+	IMAGE_ENEMY_LEFT2,
+	IMAGE_ENEMY_RIGHT1,
+	IMAGE_ENEMY_RIGHT2,
+	IMAGE_ENEMY_UP1,
+	IMAGE_ENEMY_UP2,
+	IMAGE_PLAYER1_DOWN1,
+	IMAGE_PLAYER1_DOWN2,
+	IMAGE_PLAYER1_LEFT1,
+	IMAGE_PLAYER1_LEFT2,
+	IMAGE_PLAYER1_RIGHT1,
+	IMAGE_PLAYER1_RIGHT2,
+	IMAGE_PLAYER1_UP1,
+	IMAGE_PLAYER1_UP2,
+	IMAGE_PLAYER2_DOWN,
+	IMAGE_PLAYER2_LEFT,
+	IMAGE_PLAYER2_RIGHT,
+	IMAGE_PLAYER2_UP,
+	IMAGE_BULLET_BOOM1,
+	IMAGE_BULLET_BOOM2,
+	IMAGE_BULLET_BOOM3,
+	IMAGE_DIE1,
+	IMAGE_DIE2,
+	IMAGE_ENEMY_ICON,
+	IMAGE_PLAYER_ICON,
+	IMAGE_BULLET,
+	IMAGE_SHIELD1,
+	IMAGE_SHIELD2,
+	IMAGE_STAGE,
+	IMAGE_BOARD,
+	IMAGE_MAX
+};
+
+enum DIRECTION
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+};
+
+enum TILE_STATE
+{
+	TILE_STATE_NONE,
+	TILE_STATE_BREAK,
+	TILE_STATE_FIX,
+	TILE_STATE_UPPER,
+	TILE_STATE_ITEM
+};
+
+enum TANK_STATE
+{
+	TANK_STATE_STOP,
+	TANK_STATE_MOVE
+};
+
+enum BULLET_STATE
+{
+	BULLET_NONE,
+	BULLET_MOVE,
+	BULLET_BREAK
+};
+
+enum MOVE
+{
+	MOVE_FALSE,
+	MOVE_TRUE,
+	MOVE_ITEM
+};
+
+enum GAME_STATE
+{
+	GAME_STATE_FALSE,
+	GAME_STATE_TRUE,
+	GAME_STATE_PAUSE
+};
+
+struct Tile
+{
+	int m_iIndex;
+	int m_iTileState;
+	POINT m_Point;
+	RECT m_Rect;
+	RECT m_ImageRect;
+};
+
+struct Bullet
+{
+	int m_iIndex;
+	POINT m_Point;
+	RECT m_Rect;
+	SIZE m_Size;
+};
+
+struct TankInfo
+{
+	int m_iIndex;
+	int m_iTankState;
+	int m_iDirection;
+	int m_iFindClock;
+	int m_iMoveClock;
+	int m_iFireDirection;
+	int m_iAttackState;
+	int m_iCount;
+	POINT m_Point;
+	RECT m_Rect;
+	RECT m_AttackRect;
+	Bullet m_Bullet;
+};

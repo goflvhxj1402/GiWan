@@ -1,0 +1,18 @@
+﻿  BitMap.cpp
+  GameFrame.cpp
+C:\Users\goflv\Desktop\BattleCity\BattleCity\GameFrame.cpp(101,34): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Map.cpp
+  MapTool.cpp
+  Res_MG.cpp
+  Tank.cpp
+C:\Users\goflv\Desktop\BattleCity\BattleCity\Tank.cpp(307,62): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\goflv\Desktop\BattleCity\BattleCity\Tank.cpp(343,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\goflv\Desktop\BattleCity\BattleCity\Tank.cpp(356,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\goflv\Desktop\BattleCity\BattleCity\Tank.cpp(381,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\goflv\Desktop\BattleCity\BattleCity\Tank.cpp(456,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\goflv\Desktop\BattleCity\BattleCity\Tank.cpp(462,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\goflv\Desktop\BattleCity\BattleCity\Tank.cpp(500,80): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
+C:\Users\goflv\Desktop\BattleCity\BattleCity\Tank.cpp(522,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  WinMain.cpp
+  코드를 생성하고 있습니다...
+  BattleCity.vcxproj -> C:\Users\goflv\Desktop\BattleCity\Debug\BattleCity.exe
