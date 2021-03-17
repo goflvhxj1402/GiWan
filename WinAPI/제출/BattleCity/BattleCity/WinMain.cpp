@@ -63,6 +63,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		case ID_MAPTOOL_CREATEMAP:
 			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_DIALOG1), NULL, DlgProc);
 			break;
+		case  ID_SELECTMAP_SETSTAGE1:
+			g_GameFrame.SetCustomMap(hWnd, 0);
+			break;
+		case  ID_SELECTMAP_SETSTAGE2:
+			g_GameFrame.SetCustomMap(hWnd, 1);
+			break;
+		case  ID_SELECTMAP_SETSTAGE3:
+			g_GameFrame.SetCustomMap(hWnd, 2);
+			break;
+		case  ID_SELECTMAP_SETSTAGE4:
+			g_GameFrame.SetCustomMap(hWnd, 3);
+			break;
+		case  ID_SELECTMAP_SETSTAGE5:
+			g_GameFrame.SetCustomMap(hWnd, 4);
+			break;
 		}
 		return 0;
 	case WM_DESTROY:

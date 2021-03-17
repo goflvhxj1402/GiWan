@@ -21,6 +21,7 @@ public:
 	bool Click(POINT pt);
 	void Save(HWND hDlg);
 	void Load(HWND hDlg);
+	void SetMap(HWND hDlg, Map& Map);
 	MapTool();
 	~MapTool();
 };

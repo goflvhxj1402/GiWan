@@ -16,6 +16,7 @@ private:
 	Enemy m_Enemy;
 public:
 	void SetGame(HDC hdc);
+	void SetCustomMap(HWND hWnd, int MapNum);
 	void UpdateGame(HWND hWnd, HDC hdc);
 	void GameCheck(HWND hWnd, HDC hdc);
 	void Draw(HDC hdc);

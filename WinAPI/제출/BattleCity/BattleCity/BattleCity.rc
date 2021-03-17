@@ -55,6 +55,14 @@ BEGIN
     POPUP "MapTool"
     BEGIN
         MENUITEM "CreateMap",                   ID_MAPTOOL_CREATEMAP
+        POPUP "SelectMap"
+        BEGIN
+            MENUITEM "SetStage1",                   ID_SELECTMAP_SETSTAGE1
+            MENUITEM "SetStage2",                   ID_SELECTMAP_SETSTAGE2
+            MENUITEM "SetStage3",                   ID_SELECTMAP_SETSTAGE3
+            MENUITEM "SetStage4",                   ID_SELECTMAP_SETSTAGE4
+            MENUITEM "SetStage5",                   ID_SELECTMAP_SETSTAGE5
+        END
     END
 END
 

@@ -154,6 +154,37 @@ void MapTool::Load(HWND hDlg)
 	CloseHandle(hFile);
 }
 
+void MapTool::SetMap(HWND hDlg, Map& Map)
+{
+	OPENFILENAME OFN;
+	char lpstrFile[MAX_PATH] = "";
+	char lpstrPath[MAX_PATH] = "";
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = hDlg;
+	OFN.lpstrFilter = "Text File\0*.txt;*.doc\0";
+	OFN.lpstrFile = lpstrFile;
+	OFN.nMaxFile = 256;
+	GetCurrentDirectory(MAX_PATH, lpstrPath);
+	OFN.lpstrInitialDir = lpstrPath;
+
+	if (GetSaveFileName(&OFN) == 0)
+	{
+		DWORD err = CommDlgExtendedError();
+		return;
+	}
+
+	HANDLE hFile;
+	DWORD Read;
+	hFile = CreateFile(OFN.lpstrFile, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	memset(Map.m_arrTile, NULL, sizeof(Map.m_arrTile));
+	for (int y = 0; y < MAP; y++)
+		for (int x = 0; x < MAP; x++)
+			ReadFile(hFile, &Map.m_arrTile[y][x], sizeof(Tile), &Read, NULL);
+	CloseHandle(hFile);
+}
+
 MapTool::~MapTool()
 {
 }

@@ -29,6 +29,11 @@ void GameFrame::SetGame(HDC hdc)
 	m_Enemy.ResetTank(m_iLevel);
 }
 
+void GameFrame::SetCustomMap(HWND hWnd, int MapNum)
+{
+	MapTool::GetInstance()->SetMap(hWnd, m_arrMap[MapNum]);
+}
+
 void GameFrame::UpdateGame(HWND hWnd, HDC hdc)
 {
 	if (clock() - m_iClock >= 50)

@@ -8,16 +8,16 @@ void Tank::BulletBoom(HDC hdc, TankInfo& Tank)
 {
 	POINT tmpPoint = { Tank.m_Bullet.m_Point.x - HALF + 10, Tank.m_Bullet.m_Point.y - HALF + 10 };
 	Tank.m_Bullet.m_Rect = { DIE, DIE, DIE, DIE };
-	int Index = IMAGE_BULLET_BOOM1 + Tank.m_iCount;
+	int Index = IMAGE_BULLET_BOOM1 + Tank.m_iDelay;
 	Res_MG::GetInstance()->Draw(Index, hdc, tmpPoint, PUBLIC_SIZE);
-	Tank.m_iCount++;
-	if (Tank.m_iCount == 3)
+	Tank.m_iDelay++;
+	if (Tank.m_iDelay == 3)
 	{
-		Tank.m_iAttackState = BULLET_NONE;
+		Tank.m_Bullet.m_iBulletState = BULLET_NONE;
 		Tank.m_Bullet.m_Point = { Tank.m_Point.x + HALF - Tank.m_Bullet.m_Size.cx, Tank.m_Point.y + HALF - Tank.m_Bullet.m_Size.cy };
 		Tank.m_Bullet.m_Rect = { Tank.m_Bullet.m_Point.x, Tank.m_Bullet.m_Point.y,
 			Tank.m_Bullet.m_Point.x + Tank.m_Bullet.m_Size.cx, Tank.m_Bullet.m_Point.y + Tank.m_Bullet.m_Size.cy };
-		Tank.m_iCount = 0;
+		Tank.m_iDelay = 0;
 	}
 }
 
@@ -55,7 +55,6 @@ Player::Player()
 	//아이콘설정
 	m_iIcon = IMAGE_PLAYER_ICON;
 	m_IconPt = { 725, 500 };
-	
 	m_iSpeed = 10;
 }
 
@@ -67,18 +66,19 @@ void Player::ResetTank(int Level)
 	m_Tank.m_iIndex = IMAGE_PLAYER1_UP1;
 	m_Tank.m_Point = m_DefaultPt;
 	m_Tank.m_iTankState = TANK_STATE_STOP;
-	m_Tank.m_Rect = { m_Tank.m_Point.x, m_Tank.m_Point.y,
+	m_Tank.m_TankRect = { m_Tank.m_Point.x, m_Tank.m_Point.y,
 	m_Tank.m_Point.x + PUBLIC_SIZE.cx, m_Tank.m_Point.y + PUBLIC_SIZE.cy };
-	g_PlayerRect = m_Tank.m_Rect;
+	g_PlayerRect = m_Tank.m_TankRect;
 	m_iItem = EMPTY;
+	m_Tank.m_iDelay = 0;
 	//탱크총알초기설정
 	m_Tank.m_Bullet.m_Size = { 10, 10 };
 	m_Tank.m_Bullet.m_iIndex = IMAGE_BULLET;
 	m_Tank.m_Bullet.m_Point = { m_Tank.m_Point.x + HALF - m_Tank.m_Bullet.m_Size.cx, m_Tank.m_Point.y + HALF - m_Tank.m_Bullet.m_Size.cy };
 	m_Tank.m_Bullet.m_Rect = { m_Tank.m_Bullet.m_Point.x, m_Tank.m_Bullet.m_Point.y, m_Tank.m_Bullet.m_Point.x + 10, m_Tank.m_Bullet.m_Point.y + 10 };
 	//공격상태초기설정
-	m_Tank.m_iAttackState = BULLET_NONE;
-	m_Tank.m_iFireDirection = EMPTY;
+	m_Tank.m_Bullet.m_iBulletState = BULLET_NONE;
+	m_Tank.m_iAttackDirection = EMPTY;
 }
 
 void Player::Draw(HDC hdc)
@@ -112,7 +112,7 @@ void Player::Draw(HDC hdc)
 		}
 		else
 		{
-			switch (m_Tank.m_iDirection)
+			switch (m_Tank.m_iMoveDirection)
 			{
 			case LEFT:
 				m_Tank.m_iIndex = IMAGE_PLAYER2_LEFT;
@@ -132,9 +132,9 @@ void Player::Draw(HDC hdc)
 	//탱크그리기
 	Res_MG::GetInstance()->Draw(m_Tank.m_iIndex, hdc, m_Tank.m_Point, PUBLIC_SIZE);
 	//총알그리기
-	if (m_Tank.m_iAttackState == BULLET_MOVE)
+	if (m_Tank.m_Bullet.m_iBulletState == BULLET_MOVE)
 		Res_MG::GetInstance()->Draw(m_Tank.m_Bullet.m_iIndex, hdc, m_Tank.m_Bullet.m_Point, m_Tank.m_Bullet.m_Size);
-	if (m_Tank.m_iAttackState == BULLET_BREAK)
+	if (m_Tank.m_Bullet.m_iBulletState == BULLET_BREAK)
 		BulletBoom(hdc, m_Tank);
 	//라이프그리기
 	GameInfoDraw(hdc);
@@ -148,7 +148,7 @@ void Player::Move(Map& Map)
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
 		AddX = -m_iSpeed;
-		m_Tank.m_iDirection = LEFT;
+		m_Tank.m_iMoveDirection = LEFT;
 		if (m_Tank.m_iIndex != IMAGE_PLAYER1_LEFT1 && m_Tank.m_iIndex != IMAGE_PLAYER1_LEFT2)
 			m_Tank.m_iIndex = IMAGE_PLAYER1_LEFT1;
 		m_Tank.m_iTankState = TANK_STATE_MOVE;
@@ -156,7 +156,7 @@ void Player::Move(Map& Map)
 	else if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
 		AddX = m_iSpeed;
-		m_Tank.m_iDirection = RIGHT;
+		m_Tank.m_iMoveDirection = RIGHT;
 		if (m_Tank.m_iIndex != IMAGE_PLAYER1_RIGHT1 && m_Tank.m_iIndex != IMAGE_PLAYER1_RIGHT2)
 			m_Tank.m_iIndex = IMAGE_PLAYER1_RIGHT1;
 		m_Tank.m_iTankState = TANK_STATE_MOVE;
@@ -164,7 +164,7 @@ void Player::Move(Map& Map)
 	else if (GetKeyState(VK_UP) & 0x8000)
 	{
 		AddY = -m_iSpeed;
-		m_Tank.m_iDirection = UP;
+		m_Tank.m_iMoveDirection = UP;
 		if (m_Tank.m_iIndex != IMAGE_PLAYER1_UP1 && m_Tank.m_iIndex != IMAGE_PLAYER1_UP2)
 			m_Tank.m_iIndex = IMAGE_PLAYER1_UP1;
 		m_Tank.m_iTankState = TANK_STATE_MOVE;
@@ -172,7 +172,7 @@ void Player::Move(Map& Map)
 	else if (GetKeyState(VK_DOWN) & 0x8000)
 	{
 		AddY = m_iSpeed;
-		m_Tank.m_iDirection = DOWN;
+		m_Tank.m_iMoveDirection = DOWN;
 		if (m_Tank.m_iIndex != IMAGE_PLAYER1_DOWN1 && m_Tank.m_iIndex != IMAGE_PLAYER1_DOWN2)
 			m_Tank.m_iIndex = IMAGE_PLAYER1_DOWN1;
 		m_Tank.m_iTankState = TANK_STATE_MOVE;
@@ -194,24 +194,24 @@ void Player::Move(Map& Map)
 		}
 		m_Tank.m_Point.x += AddX;
 		m_Tank.m_Point.y += AddY;
-		m_Tank.m_Rect = { m_Tank.m_Point.x , m_Tank.m_Point.y, m_Tank.m_Point.x + IMAGE_SIZE , m_Tank.m_Point.y + IMAGE_SIZE };
+		m_Tank.m_TankRect = { m_Tank.m_Point.x , m_Tank.m_Point.y, m_Tank.m_Point.x + IMAGE_SIZE , m_Tank.m_Point.y + IMAGE_SIZE };
 	}
-	g_PlayerRect = m_Tank.m_Rect;
+	g_PlayerRect = m_Tank.m_TankRect;
 }
 
 void Player::Attack(Map& Map)
 {	
 	//공격부분
-	if (GetKeyState(VK_SPACE) & 0x8000 && m_Tank.m_iAttackState == BULLET_NONE)
+	if (GetKeyState(VK_SPACE) & 0x8000 && m_Tank.m_Bullet.m_iBulletState == BULLET_NONE)
 	{
-		m_Tank.m_iAttackState = BULLET_MOVE;
+		m_Tank.m_Bullet.m_iBulletState = BULLET_MOVE;
 		m_Tank.m_Bullet.m_Point = { m_Tank.m_Point.x + HALF - m_Tank.m_Bullet.m_Size.cx / 2, m_Tank.m_Point.y + HALF - m_Tank.m_Bullet.m_Size.cy / 2 };
-		m_Tank.m_iFireDirection = m_Tank.m_iDirection;
+		m_Tank.m_iAttackDirection = m_Tank.m_iMoveDirection;
 	}
 	//탄이동
-	if (m_Tank.m_iAttackState == BULLET_MOVE)
+	if (m_Tank.m_Bullet.m_iBulletState == BULLET_MOVE)
 	{
-		switch (m_Tank.m_iFireDirection)
+		switch (m_Tank.m_iAttackDirection)
 		{
 		case UP:
 			m_Tank.m_Bullet.m_Point.y -= BULLET_SPEED;
@@ -231,7 +231,7 @@ void Player::Attack(Map& Map)
 	}
 	//공격충돌체크
 	RECT tmpRect;
-	if (m_Tank.m_iAttackState != BULLET_NONE)
+	if (m_Tank.m_Bullet.m_iBulletState != BULLET_NONE)
 	{	
 		//상대방충돌확인
 		for (int i = 0; i < 3; i++)
@@ -243,8 +243,8 @@ void Player::Attack(Map& Map)
 			}
 		}
 		//탄 벽 부딪힘확인
-		if(Map.BreakCheck(m_Tank.m_Bullet.m_Point.x, m_Tank.m_Bullet.m_Point.y, m_Tank.m_iFireDirection) == true || Index != EMPTY)
-			m_Tank.m_iAttackState = BULLET_BREAK;
+		if(Map.BreakCheck(m_Tank.m_Bullet.m_Point.x, m_Tank.m_Bullet.m_Point.y, m_Tank.m_iAttackDirection) == true || Index != EMPTY)
+			m_Tank.m_Bullet.m_iBulletState = BULLET_BREAK;
 	}
 }
 
@@ -315,20 +315,20 @@ void Enemy::CreateTank()
 		//탱크설정
 		tmpInfo.m_iIndex = IMAGE_ENEMY_DOWN1;
 		tmpInfo.m_Point = m_arrDefaultPt[RNum];
-		tmpInfo.m_Rect = { m_arrDefaultPt[RNum].x, m_arrDefaultPt[RNum].y, m_arrDefaultPt[RNum].x + IMAGE_SIZE, m_arrDefaultPt[RNum].y + IMAGE_SIZE };
-		tmpInfo.m_iDirection = DOWN;
-		tmpInfo.m_AttackRect = { tmpInfo.m_Rect.left - (IMAGE_SIZE * m_iCreateMax), tmpInfo.m_Rect.top - (IMAGE_SIZE * m_iCreateMax),
-		tmpInfo.m_Rect.right + (IMAGE_SIZE * m_iCreateMax), tmpInfo.m_Rect.bottom + (IMAGE_SIZE * m_iCreateMax) };
-		tmpInfo.m_iCount = 0;
+		tmpInfo.m_TankRect = { m_arrDefaultPt[RNum].x, m_arrDefaultPt[RNum].y, m_arrDefaultPt[RNum].x + IMAGE_SIZE, m_arrDefaultPt[RNum].y + IMAGE_SIZE };
+		tmpInfo.m_iMoveDirection = DOWN;
+		tmpInfo.m_AttackRange = { tmpInfo.m_TankRect.left - (IMAGE_SIZE * m_iCreateMax), tmpInfo.m_TankRect.top - (IMAGE_SIZE * m_iCreateMax),
+		tmpInfo.m_TankRect.right + (IMAGE_SIZE * m_iCreateMax), tmpInfo.m_TankRect.bottom + (IMAGE_SIZE * m_iCreateMax) };
+		tmpInfo.m_iDelay = 0;
 		tmpInfo.m_iFindClock = clock();
 		tmpInfo.m_iMoveClock = clock();
-		tmpInfo.m_iAttackState = BULLET_NONE;
 		//탄설정
 		tmpInfo.m_Bullet.m_iIndex = IMAGE_BULLET;
 		tmpInfo.m_Bullet.m_Size = { 10, 10 };
 		tmpInfo.m_Bullet.m_Point = { tmpInfo.m_Point.x + (HALF - 10), tmpInfo.m_Point.y + (HALF - 10) };
 		tmpInfo.m_Bullet.m_Rect = { tmpInfo.m_Bullet.m_Point.x, tmpInfo.m_Bullet.m_Point.y,
 		tmpInfo.m_Bullet.m_Point.x + tmpInfo.m_Bullet.m_Size.cx, tmpInfo.m_Bullet.m_Point.y + tmpInfo.m_Bullet.m_Size.cy };
+		tmpInfo.m_Bullet.m_iBulletState = BULLET_NONE;
 		//push_back
 		m_vEnemy.push_back(tmpInfo);		
 		m_iCreateClock = clock();
@@ -344,7 +344,7 @@ bool Enemy::RectCheck(int x, int y, int Index)
 	{
 		if (Index == i)
 			continue;
-		if (IntersectRect(&tmpRect, &m_vEnemy[i].m_Rect, &CreateRect))
+		if (IntersectRect(&tmpRect, &m_vEnemy[i].m_TankRect, &CreateRect))
 			return false;
 	}
 	return true;
@@ -365,9 +365,9 @@ void Enemy::Draw(HDC hdc)
 		}
 		Res_MG::GetInstance()->Draw(m_vEnemy[i].m_iIndex, hdc, m_vEnemy[i].m_Point, PUBLIC_SIZE);
 		//탄그리기
-		if (m_vEnemy[i].m_iAttackState == BULLET_MOVE)
+		if (m_vEnemy[i].m_Bullet.m_iBulletState == BULLET_MOVE)
 			Res_MG::GetInstance()->Draw(m_vEnemy[i].m_Bullet.m_iIndex, hdc, m_vEnemy[i].m_Bullet.m_Point, m_vEnemy[i].m_Bullet.m_Size);
-		if (m_vEnemy[i].m_iAttackState == BULLET_BREAK)
+		if (m_vEnemy[i].m_Bullet.m_iBulletState == BULLET_BREAK)
 			BulletBoom(hdc, m_vEnemy[i]);
 	}
 	//라이프그리기
@@ -392,16 +392,16 @@ void Enemy::Move(Map& Map)
 			if (abs(GaroGap) > abs(SaroGap))//플레이어와 현재 탱크의 가로차(절대값) 세로값(절대값) 비교
 			{
 				if (GaroGap > 0)//현재탱크가 플레이어보다 오른쪽에있을경우
-					m_vEnemy[i].m_iDirection = LEFT;
+					m_vEnemy[i].m_iMoveDirection = LEFT;
 				else
-					m_vEnemy[i].m_iDirection = RIGHT;
+					m_vEnemy[i].m_iMoveDirection = RIGHT;
 			}
 			else
 			{
 				if (SaroGap > 0)//현재탱크가 플레이어보다 아래있을경우
-					m_vEnemy[i].m_iDirection = UP;
+					m_vEnemy[i].m_iMoveDirection = UP;
 				else
-					m_vEnemy[i].m_iDirection = DOWN;
+					m_vEnemy[i].m_iMoveDirection = DOWN;
 			}
 			m_vEnemy[i].m_iFindClock = clock();
 			m_vEnemy[i].m_iMoveClock = clock();
@@ -409,7 +409,7 @@ void Enemy::Move(Map& Map)
 		//실제이동하기
 		if (m_vEnemy[i].m_iMoveClock - clock() >= 0 && m_vEnemy[i].m_iMoveClock - clock() <= m_iMoveTime)
 		{
-			switch (m_vEnemy[i].m_iDirection)
+			switch (m_vEnemy[i].m_iMoveDirection)
 			{
 			case LEFT:
 				AddX = -m_iSpeed;
@@ -442,39 +442,39 @@ void Enemy::Move(Map& Map)
 			{
 				m_vEnemy[i].m_Point.x += AddX;
 				m_vEnemy[i].m_Point.y += AddY;
-				m_vEnemy[i].m_Rect = { m_vEnemy[i].m_Point.x , m_vEnemy[i].m_Point.y, m_vEnemy[i].m_Point.x + IMAGE_SIZE , m_vEnemy[i].m_Point.y + IMAGE_SIZE };
-				m_vEnemy[i].m_AttackRect = { m_vEnemy[i].m_Rect.left - (IMAGE_SIZE * m_iCreateMax), m_vEnemy[i].m_Rect.top - (IMAGE_SIZE * m_iCreateMax),
-				m_vEnemy[i].m_Rect.right + (IMAGE_SIZE * m_iCreateMax), m_vEnemy[i].m_Rect.bottom + (IMAGE_SIZE * m_iCreateMax) };
+				m_vEnemy[i].m_TankRect = { m_vEnemy[i].m_Point.x , m_vEnemy[i].m_Point.y, m_vEnemy[i].m_Point.x + IMAGE_SIZE , m_vEnemy[i].m_Point.y + IMAGE_SIZE };
+				m_vEnemy[i].m_AttackRange = { m_vEnemy[i].m_TankRect.left - (IMAGE_SIZE * m_iCreateMax), m_vEnemy[i].m_TankRect.top - (IMAGE_SIZE * m_iCreateMax),
+				m_vEnemy[i].m_TankRect.right + (IMAGE_SIZE * m_iCreateMax), m_vEnemy[i].m_TankRect.bottom + (IMAGE_SIZE * m_iCreateMax) };
 			}
 			else//벽에막히는 등 못움직이는 상황
-				m_vEnemy[i].m_iDirection = rand() % 4;//방향재설정
+				m_vEnemy[i].m_iMoveDirection = rand() % 4;//방향재설정
 		}
 		else if (clock() >= m_vEnemy[i].m_iMoveClock)//일정시간 움직인 후 정지하는 시간 딜레이
 			m_vEnemy[i].m_iMoveClock = clock() + m_iMoveTime + PAUSE_TIME;	
 	}
 	//충돌확인전역변수업데이트
 	for (int i = 0; i < m_vEnemy.size(); i++)
-		g_arrEnemyRect[i] = m_vEnemy[i].m_Rect;
+		g_arrEnemyRect[i] = m_vEnemy[i].m_TankRect;
 }
 
 void Enemy::Attack(Map& Map)
 {
 	for (int i = 0; i < m_vEnemy.size(); i++)
 	{
-		if (m_vEnemy[i].m_iAttackState == BULLET_NONE)
+		if (m_vEnemy[i].m_Bullet.m_iBulletState == BULLET_NONE)
 		{
 			//플레이어가 공격범위 안 일때 일정확률로 공격 진행
 			RECT tmpRect;
-			if (IntersectRect(&tmpRect, &m_vEnemy[i].m_AttackRect, &g_PlayerRect) && rand() % 10 + 1 <= (m_iMoveTime / 1000))
+			if (IntersectRect(&tmpRect, &m_vEnemy[i].m_AttackRange, &g_PlayerRect) && rand() % 10 + 1 <= (m_iMoveTime / 1000))
 			{
-				m_vEnemy[i].m_iAttackState = BULLET_MOVE;
+				m_vEnemy[i].m_Bullet.m_iBulletState = BULLET_MOVE;
 				m_vEnemy[i].m_Bullet.m_Point = { m_vEnemy[i].m_Point.x + HALF - m_vEnemy[i].m_Bullet.m_Size.cx / 2, m_vEnemy[i].m_Point.y + HALF - m_vEnemy[i].m_Bullet.m_Size.cy / 2 };
-				m_vEnemy[i].m_iFireDirection = m_vEnemy[i].m_iDirection;
+				m_vEnemy[i].m_iAttackDirection = m_vEnemy[i].m_iMoveDirection;
 			}
 		}
-		if (m_vEnemy[i].m_iAttackState == BULLET_MOVE)
+		if (m_vEnemy[i].m_Bullet.m_iBulletState == BULLET_MOVE)
 		{
-			switch (m_vEnemy[i].m_iFireDirection)
+			switch (m_vEnemy[i].m_iAttackDirection)
 			{
 			case UP:
 				m_vEnemy[i].m_Bullet.m_Point.y -= BULLET_SPEED;
@@ -494,17 +494,17 @@ void Enemy::Attack(Map& Map)
 		}
 		//공격충돌체크
 		RECT tmpRect;
-		if (m_vEnemy[i].m_iAttackState != BULLET_NONE)
+		if (m_vEnemy[i].m_Bullet.m_iBulletState != BULLET_NONE)
 		{
 			//플레이어 충돌확인
 			if (IntersectRect(&tmpRect, &m_vEnemy[i].m_Bullet.m_Rect, &g_PlayerRect) == true)
 			{
 				g_PlayerRect = { DIE, DIE, DIE, DIE };
-				m_vEnemy[i].m_iAttackState = BULLET_BREAK;
+				m_vEnemy[i].m_Bullet.m_iBulletState = BULLET_BREAK;
 			}
 			//벽 충돌확인
-			if(Map.BreakCheck(m_vEnemy[i].m_Bullet.m_Point.x, m_vEnemy[i].m_Bullet.m_Point.y, m_vEnemy[i].m_iFireDirection) == true)
-				m_vEnemy[i].m_iAttackState = BULLET_BREAK;
+			if(Map.BreakCheck(m_vEnemy[i].m_Bullet.m_Point.x, m_vEnemy[i].m_Bullet.m_Point.y, m_vEnemy[i].m_iAttackDirection) == true)
+				m_vEnemy[i].m_Bullet.m_iBulletState = BULLET_BREAK;
 		}
 	}
 }
@@ -520,7 +520,7 @@ void Enemy::Die()
 		memset(g_arrEnemyRect, DIE, sizeof(RECT) * 3);
 		//전역변수업데이트
 		for (int i = 0; i < m_vEnemy.size(); i++)
-			g_arrEnemyRect[i] = m_vEnemy[i].m_Rect;
+			g_arrEnemyRect[i] = m_vEnemy[i].m_TankRect;
 	}
 }
 
