@@ -25,8 +25,10 @@ void GameFrame::SetGame(HDC hdc)
 	m_iGameState = GAME_STATE_FALSE;
 	m_iLevel = 0;
 	//플레이어 및 적 탱크설정
-	m_Player.ResetTank(m_iLevel);
-	m_Enemy.ResetTank(m_iLevel);
+	m_parrTank[ENEMY] = new Enemy;
+	m_parrTank[ENEMY]->ResetTank(m_iLevel);
+	m_parrTank[PLAYER] = new Player;
+	m_parrTank[PLAYER]->ResetTank(m_iLevel);
 }
 
 void GameFrame::SetCustomMap(HWND hWnd, int MapNum)
@@ -41,11 +43,11 @@ void GameFrame::UpdateGame(HWND hWnd, HDC hdc)
 		if (m_iGameState == GAME_STATE_TRUE)
 		{
 			//움직이기
-			m_Player.Move(m_arrMap[m_iLevel]);
-			m_Enemy.Move(m_arrMap[m_iLevel]);
+			m_parrTank[PLAYER]->Move(m_arrMap[m_iLevel]);
+			m_parrTank[ENEMY]->Move(m_arrMap[m_iLevel]);
 			//공격
-			m_Player.Attack(m_arrMap[m_iLevel]);
-			m_Enemy.Attack(m_arrMap[m_iLevel]);
+			m_parrTank[PLAYER]->Attack(m_arrMap[m_iLevel]);
+			m_parrTank[ENEMY]->Attack(m_arrMap[m_iLevel]);
 			//게임전반적흐름확인
 			GameCheck(hWnd, hdc);
 		}
@@ -57,12 +59,12 @@ void GameFrame::UpdateGame(HWND hWnd, HDC hdc)
 void GameFrame::GameCheck(HWND hWnd, HDC hdc)
 {
 	//적생성
-	m_Enemy.CreateTank();
+	m_parrTank[ENEMY]->CreateTank();
 	//탄 충돌체크
-	m_Player.Die();
-	m_Enemy.Die();
+	m_parrTank[PLAYER]->Die();
+	m_parrTank[ENEMY]->Die();
 	//플레이어사망확인
-	if (m_Player.GameCheck(m_iLevel) == true)
+	if (m_parrTank[PLAYER]->GameCheck(m_iLevel) == true)
 	{
 		if (MessageBox(hWnd, "플레이어 사망..다시하시겠습니까?", "사망..", MB_OKCANCEL) == IDOK)
 			SetGame(hdc);
@@ -70,10 +72,10 @@ void GameFrame::GameCheck(HWND hWnd, HDC hdc)
 			SendMessage(hWnd, WM_DESTROY, NULL, NULL);
 	}
 	//적사망확인
-	if (m_Enemy.GameCheck(m_iLevel) == true)
+	if (m_parrTank[ENEMY]->GameCheck(m_iLevel) == true)
 	{
 		m_iGameState = GAME_STATE_PAUSE;
-		m_Player.ResetTank(m_iLevel);
+		m_parrTank[PLAYER]->ResetTank(m_iLevel);
 	}
 	//최고스테이지클리어시
 	if (m_iLevel == 5)
@@ -113,8 +115,8 @@ void GameFrame::Draw(HDC hdc)
 	{
 		Res_MG::GetInstance()->Draw(IMAGE_BOARD, m_hFrameDC, ORIGIN_PT, WIN_SIZE);
 		m_arrMap[m_iLevel].DrawMap(m_hFrameDC, NORMAL);
-		m_Player.Draw(m_hFrameDC);
-		m_Enemy.Draw(m_hFrameDC);
+		m_parrTank[PLAYER]->Draw(m_hFrameDC);
+		m_parrTank[ENEMY]->Draw(m_hFrameDC);
 	}
 	//고속복사
 	BitBlt(hdc, 0, 0, WIN_X, WIN_Y, m_hFrameDC, 0, 0, SRCCOPY);
@@ -122,6 +124,8 @@ void GameFrame::Draw(HDC hdc)
 
 void GameFrame::EndGame()
 {
+	delete m_parrTank[ENEMY];
+	delete m_parrTank[PLAYER];
 	delete Res_MG::GetInstance();
 }
 

@@ -262,6 +262,16 @@ void Player::Die()
 	}
 }
 
+void Player::CreateTank()
+{
+
+}
+
+bool Player::RectCheck(int x, int y, int Index)
+{
+	return false;
+}
+
 bool Player::GameCheck(int& Level)
 {
 	if (m_iLife == 0)

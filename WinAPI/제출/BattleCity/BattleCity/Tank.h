@@ -20,6 +20,8 @@ public:
 	virtual void Attack(Map& Map) = 0;
 	virtual void Die() = 0;
 	virtual bool GameCheck(int& Level) = 0;
+	virtual void CreateTank() = 0;
+	virtual bool RectCheck(int x, int y, int Index = EMPTY) = 0;
 	Tank();
 	~Tank();
 };
@@ -39,6 +41,8 @@ public:
 	void Attack(Map& Map);
 	void Die();
 	bool GameCheck(int& Level);
+	void CreateTank();
+	bool RectCheck(int x, int y, int Index = EMPTY);
 	Player();
 	~Player();
 };

@@ -12,8 +12,7 @@ private:
 	int m_iClock;
 	int m_iLevel;
 	Map m_arrMap[MAP_MAX];
-	Player m_Player;
-	Enemy m_Enemy;
+	Tank* m_parrTank[2];
 public:
 	void SetGame(HDC hdc);
 	void SetCustomMap(HWND hWnd, int MapNum);
