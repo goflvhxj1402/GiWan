@@ -1,6 +1,6 @@
 #pragma once
 #include"MapTool.h"
-#include"Tank.h"
+#include"Unit.h"
 
 class GameFrame
 {
@@ -12,7 +12,7 @@ private:
 	int m_iClock;
 	int m_iLevel;
 	Map m_arrMap[MAP_MAX];
-	Tank* m_parrTank[2];
+	Unit* m_parrUnit[UNIT_MAX];
 public:
 	void SetGame(HDC hdc);
 	void SetCustomMap(HWND hWnd, int MapNum);

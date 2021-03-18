@@ -25,6 +25,7 @@
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="Res_MG.cpp" />
     <ClCompile Include="Tank.cpp" />
+    <ClCompile Include="Unit.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Res_MG.h" />
     <ClInclude Include="Tank.h" />
+    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BattleCity.rc" />

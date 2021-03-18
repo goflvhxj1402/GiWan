@@ -93,7 +93,7 @@ int Map::MoveCheck(int x, int y, int Option)
 				{
 					if (m_arrTile[y][x].m_iTileState == TILE_STATE_BREAK || m_arrTile[y][x].m_iTileState == TILE_STATE_FIX)
 						return MOVE_FALSE;
-					if (m_arrTile[y][x].m_iTileState == TILE_STATE_ITEM && Option == PLAYER)
+ 					if (m_arrTile[y][x].m_iTileState == TILE_STATE_ITEM && Option == PLAYER)
 					{
 						m_arrTile[y][x].m_iTileState = TILE_STATE_NONE;
 						m_arrTile[y][x].m_iIndex = IMAGE_EMPTY;
@@ -127,16 +127,16 @@ bool Map::BreakCheck(int x, int y, int Direction)//true : 총알이 사라지게함, fal
 						{
 							switch (Direction)
 							{
-							case UP:
+							case DIRECTION_UP:
 								m_arrTile[y][x].m_iIndex = IMAGE_BLOCK1_UP;
 								break;
-							case DOWN:
+							case DIRECTION_DOWN:
 								m_arrTile[y][x].m_iIndex = IMAGE_BLOCK1_DOWN;
 								break;
-							case LEFT:
+							case DIRECTION_LEFT:
 								m_arrTile[y][x].m_iIndex = IMAGE_BLOCK1_LEFT;
 								break;
-							case RIGHT:
+							case DIRECTION_RIGHT:
 								m_arrTile[y][x].m_iIndex = IMAGE_BLOCK1_RIGHT;
 								break;
 							}
