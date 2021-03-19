@@ -159,18 +159,3 @@ struct Bullet
 	RECT m_Rect;
 	SIZE m_Size;
 };
-
-struct TankInfo
-{
-	int m_iIndex;
-	int m_iTankState;
-	int m_iMoveDirection;
-	int m_iAttackDirection;
-	int m_iFindClock;
-	int m_iMoveClock;
-	int m_iDelay;
-	POINT m_Point;
-	RECT m_TankRect;
-	RECT m_AttackRange;
-	Bullet m_Bullet;
-};
