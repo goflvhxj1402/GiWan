@@ -50,6 +50,7 @@ private:
 	POINT m_arrRespawnPt[MAX];
 	int m_iCreateIndex;
 	int m_iCreateClcok;
+	int m_iFind;
 public:
 	void SetUnit(int Level);
 	void CreateTank();

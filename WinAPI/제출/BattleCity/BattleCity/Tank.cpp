@@ -88,14 +88,14 @@ void Tank::DrawTank(HDC hdc)
 
 }
 
-RECT Tank::Move(Map Map, RECT* Rect)
+RECT Tank::Move(Map Map, RECT* Rect, int Find)
 {
 	//공격상태설정
 	RECT tmpRect;
 	if (IntersectRect(&tmpRect, &m_AttackRange, &Rect[0]) == true && rand() % 3 == 0)
 		SetBullet();
 	//움직이기(플레이어 추적)
-	if (clock() - m_iFindClock >= PAUSE_TIME * 2)
+	if (clock() - m_iFindClock >= Find)
 	{
 		int GapX, GapY;
 		GapX = m_TankRect.left - Rect[0].left;

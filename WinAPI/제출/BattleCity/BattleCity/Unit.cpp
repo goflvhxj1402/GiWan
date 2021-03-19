@@ -142,6 +142,8 @@ void Enemy::SetUnit(int Level)
 	m_iCreateClcok = clock();
 	//탱크생성인덱스 초기화
 	m_iCreateIndex = 0;
+	//플레이어추적시간 주기 설정
+	m_iFind = (3 - Level) * PAUSE_TIME;
 	//벡터초기화
 	while (!m_vTank.empty())
 		m_vTank.pop_back();
@@ -177,7 +179,7 @@ void Enemy::UpdateUnit(HDC hdc, Map& Map)
 		//그리기
 		m_vTank[i].DrawTank(hdc);
 		//움직이기
-		g_arrTankRect[i + 1] = m_vTank[i].Move(Map, g_arrTankRect);
+		g_arrTankRect[i + 1] = m_vTank[i].Move(Map, g_arrTankRect, m_iFind);
 		//공격
 		m_BulletRect = m_vTank[i].Attack(Map);
 		if (CollideCheck(m_BulletRect, g_arrTankRect[0]) == true)

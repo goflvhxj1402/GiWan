@@ -23,7 +23,7 @@ private:
 public:
 	RECT ResetTank(int UnitType, POINT pt);
 	void DrawTank(HDC hdc);
-	RECT Move(Map Map, RECT* Rect);
+	RECT Move(Map Map, RECT* Rect, int Find);
 	RECT Move(int Direction, Map& Map, RECT* Rect);
 	void SetBullet();
 	RECT Attack(Map& Map);
