@@ -141,7 +141,7 @@ void Enemy::SetUnit(int Level)
 	m_arrRespawnPt[1] = { 350, 50 };
 	m_arrRespawnPt[2] = { 550, 50 };
 	//라이프설정
-	m_iLife = ENEMY_MAX / 10;
+	m_iLife = ENEMY_MAX;
 	//탱크생성시간 초기화
 	m_iCreateClcok = clock();
 	//탱크생성인덱스 초기화
