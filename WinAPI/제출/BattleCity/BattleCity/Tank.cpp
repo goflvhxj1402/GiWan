@@ -205,7 +205,11 @@ RECT Tank::Move(int Direction, Map& Map, RECT* Rect)
  				m_TankRect = { END, END, END, END };
 		}
 		else if (m_iUnitType == ENEMY)//적일경우 못움직이면 방향 재설정
+		{
 			m_iMoveDir = rand() % 4;
+			if (rand() % 10 <= 1 && m_Bullet.m_iBulletState == BULLET_NONE)//벽부수기용공격추가
+				SetBullet();
+		}
 	}
 	else//방향이없음
 		m_iTankState = TANK_STOP;
