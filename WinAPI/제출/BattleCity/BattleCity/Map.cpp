@@ -39,7 +39,7 @@ void Map::DrawMap(HDC hdc, int Option)
 				Rectangle(hdc, m_arrTile[y][x].m_Rect.left, m_arrTile[y][x].m_Rect.top, m_arrTile[y][x].m_Rect.right, m_arrTile[y][x].m_Rect.bottom);
 			else
 			{
-				if (m_arrTile[y][x].m_iIndex == IMAGE_EMPTY && Option == NORMAL)//맵툴그리기용
+				if (m_arrTile[y][x].m_iIndex == IMAGE_EMPTY && Option == NORMAL)//부쉬그리기용 제어
 					continue;
 				Res_MG::GetInstance()->Draw(m_arrTile[y][x].m_iIndex, hdc, m_arrTile[y][x].m_Point, PUBLIC_SIZE);
 			}
@@ -89,7 +89,7 @@ int Map::MoveCheck(int x, int y, int Option)
 			{
 				if (IntersectRect(&tmp1, &tmp2, &m_arrTile[y][x].m_ImageRect))
 				{
-					if (m_arrTile[y][x].m_iTileState == TILE_STATE_BREAK || m_arrTile[y][x].m_iTileState == TILE_STATE_FIX)
+					if (m_arrTile[y][x].m_iTileState == TILE_STATE_BREAK || m_arrTile[y][x].m_iTileState == TILE_STATE_FIX || m_arrTile[y][x].m_iIndex == IMAGE_BLOCK_WATER)
 						return MOVE_FALSE;
  					if (m_arrTile[y][x].m_iTileState == TILE_STATE_ITEM && Option == PLAYER)
 					{
