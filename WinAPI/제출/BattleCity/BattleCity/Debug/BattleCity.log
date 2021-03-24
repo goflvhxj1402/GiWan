@@ -1,23 +1,25 @@
-﻿  GameFrame.cpp
-C:\Users\A10\Desktop\BattleCity\BattleCity\GameFrame.cpp(95,34): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  BitMap.cpp
+  GameFrame.cpp
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\GameFrame.cpp(95,34): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Map.cpp
   MapTool.cpp
-C:\Users\A10\Desktop\BattleCity\BattleCity\MapTool.cpp(102,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\A10\Desktop\BattleCity\BattleCity\MapTool.cpp(117,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\A10\Desktop\BattleCity\BattleCity\MapTool.cpp(134,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\MapTool.cpp(102,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\MapTool.cpp(117,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\MapTool.cpp(134,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Res_MG.cpp
   Tank.cpp
-C:\Users\A10\Desktop\BattleCity\BattleCity\Tank.cpp(86,59): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
-C:\Users\A10\Desktop\BattleCity\BattleCity\Tank.cpp(86,117): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
-C:\Users\A10\Desktop\BattleCity\BattleCity\Tank.cpp(103,24): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A10\Desktop\BattleCity\BattleCity\Tank.cpp(104,22): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Tank.cpp(86,59): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Tank.cpp(86,117): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Tank.cpp(103,24): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Tank.cpp(104,22): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Unit.cpp
-C:\Users\A10\Desktop\BattleCity\BattleCity\Unit.cpp(171,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\A10\Desktop\BattleCity\BattleCity\Unit.cpp(189,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\A10\Desktop\BattleCity\BattleCity\Unit.cpp(188,6): warning C4101: 'GapX' :참조되지 않은 지역 변수입니다.
-C:\Users\A10\Desktop\BattleCity\BattleCity\Unit.cpp(188,18): warning C4101: 'Direction' :참조되지 않은 지역 변수입니다.
-C:\Users\A10\Desktop\BattleCity\BattleCity\Unit.cpp(188,12): warning C4101: 'GapY' :참조되지 않은 지역 변수입니다.
-C:\Users\A10\Desktop\BattleCity\BattleCity\Unit.cpp(236,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Unit.cpp(171,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Unit.cpp(189,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Unit.cpp(188,6): warning C4101: 'GapX' :참조되지 않은 지역 변수입니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Unit.cpp(188,18): warning C4101: 'Direction' :참조되지 않은 지역 변수입니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Unit.cpp(188,12): warning C4101: 'GapY' :참조되지 않은 지역 변수입니다.
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\Unit.cpp(236,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   WinMain.cpp
   코드를 생성하고 있습니다...
-C:\Users\A10\Desktop\BattleCity\BattleCity\MapTool.cpp(163): warning C4172: 지역 변수 또는 임시: lpstrFile의 주소를 반환하고 있습니다.
-  BattleCity.vcxproj -> C:\Users\A10\Desktop\BattleCity\Debug\BattleCity.exe
+C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\BattleCity\MapTool.cpp(163): warning C4172: 지역 변수 또는 임시: lpstrFile의 주소를 반환하고 있습니다.
+  BattleCity.vcxproj -> C:\Users\A10\Desktop\GiWan\WinAPI\제출\BattleCity\Debug\BattleCity.exe

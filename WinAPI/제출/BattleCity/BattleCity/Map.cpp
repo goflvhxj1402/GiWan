@@ -47,18 +47,6 @@ void Map::DrawMap(HDC hdc, int Option)
 	}
 }
 
-void Map::BushDraw(HDC hdc)
-{
-	for (int y = 0; y < MAP; y++)
-	{
-		for (int x = 0; x < MAP; x++)
-		{
-			if(m_arrTile[y][x].m_iIndex == IMAGE_BLOCK_GRASS)
-				Res_MG::GetInstance()->Draw(IMAGE_BLOCK_GRASS, hdc, m_arrTile[y][x].m_Point, PUBLIC_SIZE);
-		}
-	}
-}
-
 void Map::SetImageRect()
 {
 	for (int y = 0; y < MAP; y++)
