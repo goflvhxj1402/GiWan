@@ -101,10 +101,10 @@ void GameFrame::Draw(HDC hdc)
 	else//게임진행중
 	{
 		Res_MG::GetInstance()->Draw(IMAGE_BOARD, m_hFrameDC, ORIGIN_PT, WIN_SIZE);
-		m_arrMap[m_iLevel].DrawMap(m_hFrameDC, NORMAL);
+		Res_MG::GetInstance()->Draw(IMAGE_EMPTY, m_hFrameDC, GAME_PT, GAME_SIZE);
 		m_parrUnit[ENEMY]->UpdateUnit(m_hFrameDC, m_arrMap[m_iLevel]);
 		m_parrUnit[PLAYER]->UpdateUnit(m_hFrameDC, m_arrMap[m_iLevel]);
-		m_arrMap[m_iLevel].BushDraw(m_hFrameDC);
+		m_arrMap[m_iLevel].DrawMap(m_hFrameDC, NORMAL);
 	}
 	//고속복사
 	BitBlt(hdc, 0, 0, WIN_X, WIN_Y, m_hFrameDC, 0, 0, SRCCOPY);

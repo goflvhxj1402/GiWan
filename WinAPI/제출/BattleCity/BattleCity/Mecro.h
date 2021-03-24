@@ -33,10 +33,11 @@
 #define AIR 2
 static POINT ORIGIN_PT = { 0, 0 };
 static POINT STAGE_PT = { WIN_X / 3, WIN_Y / 3 };
+static POINT GAME_PT = { 50, 50 };
 static SIZE WIN_SIZE = { WIN_X, WIN_Y };
 static SIZE PUBLIC_SIZE = { IMAGE_SIZE, IMAGE_SIZE };
 static SIZE ICON_SIZE = { 25, 25 };
-
+static SIZE GAME_SIZE = { WIN_X - 150, WIN_Y - 100 };
 using namespace std;
 
 enum IMAGE

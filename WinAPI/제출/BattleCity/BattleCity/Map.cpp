@@ -31,20 +31,18 @@ void Map::SetMap(LPCSTR buf)
 
 void Map::DrawMap(HDC hdc, int Option)
 {
-	if (Option == NORMAL)//µÞÆÇ±×¸®±â
-	{
-		for (int y = 0; y < MAP; y++)
-			for (int x = 0; x < MAP; x++)
-				Res_MG::GetInstance()->Draw(IMAGE_EMPTY, hdc, m_arrTile[y][x].m_Point, PUBLIC_SIZE);
-	}
 	for (int y = 0; y < MAP; y++)//¸Ê±×¸®±â
 	{
 		for (int x = 0; x < MAP; x++)
 		{
-			if (m_arrTile[y][x].m_iIndex == EMPTY)
+			if (m_arrTile[y][x].m_iIndex == EMPTY)//¸ÊÅø¿ë±×¸®±â
 				Rectangle(hdc, m_arrTile[y][x].m_Rect.left, m_arrTile[y][x].m_Rect.top, m_arrTile[y][x].m_Rect.right, m_arrTile[y][x].m_Rect.bottom);
 			else
+			{
+				if (m_arrTile[y][x].m_iIndex == IMAGE_EMPTY && Option == NORMAL)//¸ÊÅø±×¸®±â¿ë
+					continue;
 				Res_MG::GetInstance()->Draw(m_arrTile[y][x].m_iIndex, hdc, m_arrTile[y][x].m_Point, PUBLIC_SIZE);
+			}
 		}
 	}
 }
